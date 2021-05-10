@@ -6,7 +6,6 @@ samples = patient.samples;
 
 
 %samples = patient.samples(1:3*15*60*params.sf);
-%qrs_detect_func=make_qrs_detect3(make_butter(4,[5/(params.sf/2) 30/(params.sf/2)]), params);
 %rr = calc_rr_no_fill(qrs_detect_func,samples,params);
 %rr=calc_rr_pan_tompkin_no_rr_filling(samples,params);
 
@@ -89,7 +88,6 @@ save('RRdata_pat16.mat','temp','rr','rr_time_axis');
 
 plot(csi_snip.modCSI)
 
-%rr_snip=calc_rr_qrs_detect3(samples(1000000:1050000),params);
 
 %x-value 32078
 

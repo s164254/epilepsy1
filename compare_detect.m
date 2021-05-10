@@ -1,3 +1,4 @@
+%used to compare accuracy of butterworth- and Sombrero filters in QRS detection accuracy
 function compare_detect(samples,params,filter_funcs)
     err_bar_height=0.1*(max(samples(1:1000))-min(samples(1:1000)));
     

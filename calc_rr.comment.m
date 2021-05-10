@@ -16,7 +16,7 @@ function rr = calc_rr(qrs_func_name,samples, params)
         rr_indices = feval( qrs_func_name, samples(start_idx+1:end_idx), params); %Evaluating the given qrs function in order to obtain the rr intervals in each window. Params indicate the sampling frequency.
         
         % calculate RR
-        temp = diff([1 rr_indices]) / params.sf; %The 1 that is used in diff just ensures that the very first rr interval is also included.
+        temp = diff([rr_indices]) / params.sf; %The 1 that is used in diff just ensures that the very first rr interval is also included.
         
         % remove RR values below RR_MIN and larger than RR_MAX
         temp = temp((temp>=RR_MIN) & (temp<=RR_MAX));
