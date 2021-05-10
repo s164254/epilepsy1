@@ -9,7 +9,6 @@ win_size=7.4*10^7-start_idx;
 
 samples = patient.samples(start_idx:start_idx+win_size-1);
 
-%filters = ["sombrero" "butter_filter"];
 f1 = make_sombrero(params.sf);
 f2 = make_butter(2,[5/(params.sf/2) 30/(params.sf/2)]); %n (the first input in butter (make_butter in this case)
 %represents one-half the filter order for a band-pass butterworth filter.

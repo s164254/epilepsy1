@@ -6,7 +6,6 @@ samples = patient.samples;
 
 
 %samples = patient.samples(1:3*15*60*params.sf);
-%rr = calc_rr_qrs_detect3(samples,params,"butter_filter");
 %qrs_detect_func=make_qrs_detect3(make_butter(4,[5/(params.sf/2) 30/(params.sf/2)]), params);
 %rr = calc_rr_no_fill(qrs_detect_func,samples,params);
 %rr=calc_rr_pan_tompkin_no_rr_filling(samples,params);
