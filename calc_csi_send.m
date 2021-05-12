@@ -69,10 +69,10 @@ function csi = calc_csi(patient, params, rr, N)
     end
 
     % This new variable in the CSI struct contains bars corresponding to the max height of the modified CSI signal around the seizures.
-    csi.episodes = zeros(1, length(CSI)); 
+    csi.episodes = zeros(1, length(CSI));
 
     % The max height of the modified CSI signal, this is used to ensure that the bars are of proper height to clearly indicate position of seizures.
-    mx = max(modCSI); 
+    mx = max(modCSI);
 
     for et = 1:length(episode_times)
         idx = find(csi.t > episode_times(et) / params.sf); % When the time on the CSI axis exceeds the time of an episode, a vertical bar corresponding to the max height of the modified CSI signal is placed immediately following the episode.
