@@ -1,4 +1,7 @@
-function csi = calc_csi(patient, params, rr, N)
+%This was the function used to obtain the CSI- and modCSI results in this
+%project.
+
+function csi = calc_csi_send(patient, params, rr, N)
     % Using the HRV (medRR) as input calculate CSI and modified CSI slope
     % Calculating ModCSI100filtered*slope and CSI100*slope:
     fact = 1 / sqrt(2); %Constant that is part of the CSI formulas
@@ -71,8 +74,8 @@ function csi = calc_csi(patient, params, rr, N)
     % This new variable in the CSI struct contains bars corresponding to the max height of the modified CSI signal around the seizures.
     csi.episodes = zeros(1, length(CSI));
 
-    % The max height of the modified CSI signal, this is used to ensure that the bars are of proper height to clearly indicate position of seizures.
-    mx = max(modCSI);
+     %The max height of the modified CSI signal, this is used to ensure that the bars are of proper height to clearly indicate position of seizures.
+     mx = max(modCSI);
 
     for et = 1:length(episode_times)
         idx = find(csi.t > episode_times(et) / params.sf); % When the time on the CSI axis exceeds the time of an episode, a vertical bar corresponding to the max height of the modified CSI signal is placed immediately following the episode.

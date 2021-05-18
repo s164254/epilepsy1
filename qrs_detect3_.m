@@ -13,5 +13,5 @@ function rr_indices = qrs_detect3_(samples, params, varargin)
     end
 
     % perform the calculation
-    [rr_indices, sign, en_thres] = qrs_detect3(samples, 0.25, 0.6, params.sf, filter_func); % refractory period changed from 0.25 -> 0.1 ms
+    [rr_indices, sign, en_thres] = qrs_detect3(samples, 0.25, 0.6, params.sf, filter_func); % refractory period is 0.25 seconds.
 end

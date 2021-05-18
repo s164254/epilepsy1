@@ -1,6 +1,6 @@
 % compare_detect is used compare the effect of selected
 % low/high/bandpass filters in QRS detection accuracy
-% using plot
+% which is illustrated with a plot.
 %
 function compare_detect(samples, params, filter_funcs)
     % height of the vertical R indicators

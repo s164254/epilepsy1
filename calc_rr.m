@@ -1,4 +1,10 @@
-% calc_rr splits ECG samples into equally sized windows, 
+% This function was not used in obtaining any of the results in the report.
+% However, some of the tested (but ultimately not used) QRS detection
+% algorithms crashed or returned incorrect results when sample size was
+% sufficiently large. This could have possible also been the case for the chosen QRS
+% detection algorithm, if it had been used on larger sets og patient data.
+% Thus, to generalize the QRS detection to all patients this function was created and it:
+% splits ECG samples into equally sized windows, 
 % performs a QRS detection on samples in each window,
 % calculates RR length from  each QRS detection and
 % combines all that into a single resulting RR vector
@@ -12,37 +18,47 @@
 % 2) Remove RR intervals outsize RR_MIN:RR_MAX
 % 3) Calculate cumsum of resulting RR intervals
 % 3) If cumsum<window size - 2 seconds: append further RR intervals of equal length at the start
-% 
-% The reason for the split into windows is that some
-% of the QRS detection algorithms are unstable and either crashes
-% or returns incorrect results when sample size is sufficiently large
-% 
+% The last step of appending RR intervals was performed, as 
+% transitioning from one window to the next sometimes results in a loss of
+% RR intervals. This distorts the time axis associated with the RR intervals
+% when compared to the time axis of the raw ECG data and thus complicates translation
+% of seizure onset- and termination from ECG data to RR intervals. 
+% The outcome of this is incorrectly positioned seizure periods on both the RR interval signals
+% and the CSI- and modified CSI signals.
+% This approach of appending extra RR intervals is only useful for visualization- and verification purposes
+%(correctly displaying the seizure periods on the CSI- and modified CSI plots) 
+% and would never be implemented in real time detection of epileptic seizures using CSI and modified CSI.
+
+
 function rr = calc_rr(qrs_func_name, samples, params)
-    % 15 min. window size5
+    % 15 min. window size
     secs_win_size = 15 * 60; 
 
     sample_win_size = secs_win_size * params.sf; % converting from seconds to indexes.
 
-    % number of windows that the samples will be divi
+    % number of windows that the samples will be divided into
     num_windows = ceil(length(samples) / sample_win_size);
-    RR_MIN = 0.25;
-    RR_MAX = 3; %Consider removing RR_max for the final report.
+    RR_MIN = 0.25; %Minimum time between two R peaks in seconds. 
+    RR_MAX = 3; %Maximum time between two R peaks in seconds. During cardiac
+    %arrest this can be exceeded, however the algorithm was not designed to
+    %detect cardiac arrest.
 
-    rr = [];
+    rr = []; %pre-allocating
     num_samples = length(samples);
 
     for w = 1:num_windows
-        start_idx = sample_win_size * (w - 1);
-        end_idx = start_idx + sample_win_size;
+        start_idx = sample_win_size * (w - 1); %Making sure that each index starts at the beginning of the next window.
+        end_idx = start_idx + sample_win_size; %The final index for a specific window ends at the start of the next window.
 
         if end_idx > num_samples
-            end_idx = num_samples;
+            end_idx = num_samples; %This if sentence ensures that we do not go past the length of the data.
             secs_win_size = (end_idx - start_idx) / params.sf;
         end
 
-        rr_indices = feval(qrs_func_name, samples(start_idx + 1:end_idx), params);
+        rr_indices = feval(qrs_func_name, samples(start_idx + 1:end_idx), params); %Evaluating the given qrs function
+        %in order to obtain the rr intervals in each window. Params indicate the sampling frequency.
 
-        % calculate RR
+        % calculate HRV
         temp = diff([rr_indices]) / params.sf;
 
         % remove RR values below RR_MIN and larger than RR_MAX

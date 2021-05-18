@@ -121,12 +121,14 @@ function [qrs_pos, sign, en_thres, bpfecg, q_pos, s_pos] = qrs_detect3(ecg, vara
 
     [a b] = size(ecg);
 
-    if (a > b); NB_SAMP = a; elseif(b > a); NB_SAMP = b; ecg = ecg'; end;
+    if (a > b); NB_SAMP = a; elseif(b > a); NB_SAMP = b; ecg = ecg'; end; %This line of code just ensures that only a vector
+    %is used as input. Also, if the vector is a column vector, it is
+    %transposed to a row vector.
         tm = 1 / fs:1 / fs:ceil(NB_SAMP / fs);
 
         % == constants
         MED_SMOOTH_NB_COEFF = round(fs / 100);
-        INT_NB_COEFF = round(WIN_SAMP_SZ * fs / 256); % length is 30 for fs=256Hzm should this be changed to 512?
+        INT_NB_COEFF = round(WIN_SAMP_SZ * fs / 256); % length is 30 for fs=256Hz.
         SEARCH_BACK = 1; % perform search back (FIXME: should be in function param)
         MAX_FORCE = []; % if you want to force the energy threshold value (FIXME: should be in function param)
         MIN_AMP = 0.1; % if the median of the filtered ECG is inferior to MINAMP then it is likely to be a flatline

@@ -1,4 +1,4 @@
-% common parameters used by most the scripts
+% common parameters used by most of the scripts
 function params = load_params()
     % Add TDMS scripts to MATLAB path
     addpath(genpath('v2p6'));

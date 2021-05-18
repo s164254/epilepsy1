@@ -1,3 +1,9 @@
+%This function was not used in obtaining the results displayed in the
+%project. It is made to be compatible with calc_rr, and thus must be used
+%when using calc_rr to calculate HRV. As calc_rr was not used in the
+%results obtained in the project, this function was not used either. It is
+%still relevant for the reasons given in the calc_rr script.
+
 function csi = calc_csi(patient, params, rr, N)
     %Using the HRV (medRR) as input calculate CSI and modified CSI slope
     %Calculating ModCSI100filtered*slope and CSI100*slope:
@@ -28,15 +34,11 @@ function csi = calc_csi(patient, params, rr, N)
     for i = 1:end_idx
         sd1mod = std(medRRSub(i:i1));
         sd2mod = std(medRRAdd(i:i1));
-        %sd1mod = std(fact .* ((medRR(i:i1) - medRR(i+1:i2))));
-        %sd2mod = std(fact .* ((medRR(i:i1) + medRR(i+1:i2))));
         slope = abs(polyfit(tm(i:i1 + 1), medRR(i:i1 + 1), 1));
         a(end + 1) = slope(1);
 
-        if sd1mod == 0 %consider removing this if sentence (and the one in CSI) as they are only used when filling in RR values,
-            %which we do not do, unless calc_rr is used to perform qrs
-            %detection in windows. This is not neccessary with
-            %qrs_detect_3.
+        if sd1mod == 0 % This if sentence is used in case the standard deviation becomes zero
+            % as a result of the appended RR intervals from calc_rr.
             modCSI(i) = 0;
         else
             modCSI(i) = 4 * sd2mod * sd2mod / sd1mod * slope(1);
@@ -52,8 +54,10 @@ function csi = calc_csi(patient, params, rr, N)
     for i = 1:end_idx
         sd1 = std(RRSub(i:i1));
         sd2 = std(RRAdd(i:i1));
-
-        if sd1mod == 0
+        
+        if sd1mod == 0 % This if sentence is used in case the standard deviation becomes zero
+            % as a result of the appended RR intervals from calc_rr.
+            modCSI(i) = 0;
             CSI(i) = 0;
         else
             CSI(i) = (4 * sd2) / (4 * sd1) * a(i);

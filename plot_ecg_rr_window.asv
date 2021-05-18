@@ -8,8 +8,8 @@ params = load_params();
 qrs_func_name = 'qrs_detect3_';
 pid = '16';
 patient = load_patient(pid, params);
-start_idx =patient.episodes(1, 1);
-win_size = patient.episodes(1, 2);
+start_idx =3.2463*10^7;
+win_size = 3.2589*10^7-start_idx;
 
 samples = patient.samples(start_idx:start_idx + win_size - 1);
 ex = feval(qrs_func_name, samples, params, make_butter(2, [5 / (params.sf / 2) 30 / (params.sf / 2)]));
@@ -22,7 +22,6 @@ err = eb_height * ones(length(ex), 1);
 hold on
 plot(samples)
 errorbar(ex, ey, err, 'LineStyle', 'none');
-title('QRS detection in ECG area resulting in largest modCSI value for patient 16')
 xlabel(['Indices'])
 ylabel(['Amplitude'])
 hold off
@@ -67,18 +66,18 @@ hold on
 rr_vec=rr(97:196);
 rr_vec_plus_1=rr(98:197);
 plot(rr_vec,rr_vec_plus_1,'.');
-title('Lorenz plot in seizure area for patient 16')
+title('Lorenz plot in seizure area of patient 16')
 xlabel(['RRn [s]'])
 ylabel(['RRn+1 [s]'])
 hold off
 
 %The following Lorenz plot is for the baseline area with largest modCSI
-%values. Here 150 to 250 seems fitting. 153:252 is correct.
+%values. Here 150 to 250 seems fitting.
 hold on
-rr_vec=rr(153:252);
-rr_vec_plus_1=rr(154:253);
+rr_vec=rr(150:249);
+rr_vec_plus_1=rr(151:250);
 plot(rr_vec,rr_vec_plus_1,'.');
-title('Lorenz plot in baseline area with largest modCSI value for patient 16')
+title('Lorenz plot in baseline area with largest modCSI value of patient 16')
 xlabel(['RRn [s]'])
 ylabel(['RRn+1 [s]'])
 hold off
@@ -89,7 +88,7 @@ hold off
 %plotting CSI parameters in the area.
 csitest = calc_csi_send(patient, params, rr, 100);
 plot(csitest.modCSI);
-title('modCSI in baseline area with maximal value for patient 16')
+title('modCSI in  for patient 16')
 xlabel(['Indices'])
 ylabel(['modCSI100filtered*slope'])
 

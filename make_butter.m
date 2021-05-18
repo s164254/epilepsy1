@@ -3,7 +3,7 @@
 % with butterwoth filter arguments order and cutoff_frac
 function f = make_butter(order, cutoff_frac)
     % create butterworth filtering arguments
-    % they are now caaptured in the closure
+    % they are now captured in the closure
     [B_high, A_high] = butter(order, cutoff_frac, 'bandpass');
 
     function filtered = filter_func(samples)

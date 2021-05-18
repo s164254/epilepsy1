@@ -1,3 +1,4 @@
+%Load and process patient data
 function patient = load_patient(patient_id, params)
     load(fullfile(params.mat_file_path, [params.mat_filename_start patient_id]));
 

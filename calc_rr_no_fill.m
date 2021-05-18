@@ -1,9 +1,11 @@
+%Works the same as calc_rr but no extra RR intervals are appended under any conditions. 
+
 function rr = calc_rr_no_fill(qrs_detect_func,samples,params)
-    secs_win_size =  15 * 60; % 15 min. window size5
-    sample_win_size = secs_win_size * params.sf; % 30 min. window size5
+    secs_win_size =  15 * 60; % 15 min. window size
+    sample_win_size = secs_win_size * params.sf;
     num_windows = ceil(length(samples) / sample_win_size);
     RR_MIN = 0.25;
-    RR_MAX = 2;
+    RR_MAX = 3;
 
     rr = [];
     num_samples = length(samples);
